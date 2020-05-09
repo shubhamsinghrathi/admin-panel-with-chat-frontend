@@ -1,18 +1,18 @@
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { GuestRoutingModule } from './guest-routing.module';
-import { LoginComponent } from './login/login.component';
+import { UserRoutingModule } from './user-routing.module';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
     declarations: [
-        LoginComponent
+        DashboardComponent
     ],
     imports: [
-        GuestRoutingModule,
+        UserRoutingModule,
         FormsModule,
         ReactiveFormsModule
     ],
     providers: []
 })
-export class GuestModule {}
+export class UserModule {}
