@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule, DatePipe } from '@angular/common';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 import { MatModuleModule } from '../../mat-module.module';
 import { UserRoutingModule } from './user-routing.module';
@@ -11,6 +12,7 @@ import { ListComponent } from './user/list/list.component';
 import { DetailComponent } from './user/detail/detail.component';
 import { AddComponent } from './user/add/add.component';
 import { EditComponent } from './user/edit/edit.component';
+import { PopupComponent } from './common/popup/popup.component';
 
 @NgModule({
     declarations: [
@@ -20,17 +22,20 @@ import { EditComponent } from './user/edit/edit.component';
         ListComponent,
         DetailComponent,
         AddComponent,
-        EditComponent
+        EditComponent,
+        PopupComponent
     ],
     imports: [
         CommonModule,
         MatModuleModule,
+        MatDialogModule,
         UserRoutingModule,
         FormsModule,
         ReactiveFormsModule
     ],
     providers: [
-        DatePipe
+        DatePipe,
+        MatDialog
     ]
 })
 export class UserModule {}

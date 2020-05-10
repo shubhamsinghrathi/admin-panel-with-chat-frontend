@@ -57,8 +57,7 @@
               </button>
 
               <button
-                *ngIf="!element?.blocked"
-                (click)="viewUser(element, 1)"
+                (click)="deleteUser(element)"
                 class="btn btn-danger btn-sm"
                 data-toggle="modal"
                 data-target="#block-modal"
@@ -76,45 +75,6 @@
           showFirstLastButtons
         ></mat-paginator>
       </div>
-      <!-- <table class="table table-dark">
-        <thead>
-          <tr>
-            <th scope="col">Id</th>
-            <th scope="col">Name</th>
-            <th scope="col">Username</th>
-            <th scope="col">CreatedAt</th>
-            <th scope="col">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-            <td>
-              <a href="#" class="table-link">
-                <span class="fa-stack">
-                  <i class="fa fa-square fa-stack-2x"></i>
-                  <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
-                </span>
-              </a>
-              <a href="#" class="table-link">
-                <span class="fa-stack">
-                  <i class="fa fa-square fa-stack-2x"></i>
-                  <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                </span>
-              </a>
-              <a href="#" class="table-link danger">
-                <span class="fa-stack">
-                  <i class="fa fa-square fa-stack-2x"></i>
-                  <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                </span>
-              </a>
-            </td>
-          </tr>
-        </tbody>
-      </table> -->
     </div>
   </div>
 </div>
