@@ -1,32 +1,35 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatDialog } from '@angular/material/dialog';
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Component, OnInit, ViewChild, OnDestroy } from "@angular/core";
+import { MatPaginator } from "@angular/material/paginator";
+import { MatDialog } from "@angular/material/dialog";
+import { Store } from "@ngrx/store";
+import { Observable, Subscription } from "rxjs";
 
-import { Users } from '../../../../data-managers/users.model';
-import * as UserActions from '../../../../data-managers/users.action';
-import { AppState } from '../../../../data-managers/appstate.model';
-import { PopupComponent } from '../../common/popup/popup.component';
+import { Users } from "../../../../data-managers/users.model";
+import * as UserActions from "../../../../data-managers/users.action";
+import { AppState } from "../../../../data-managers/appstate.model";
+import { PopupComponent } from "../../common/popup/popup.component";
 
 @Component({
-  selector: 'app-list',
-  templateUrl: './list.component.html',
-  styleUrls: ['./list.component.css']
+  selector: "app-list",
+  templateUrl: "./list.component.html",
+  styleUrls: ["./list.component.css"]
 })
-export class ListComponent implements OnInit {
-
-  displayedColumns: string[] = ['SN', 'name', 'username', 'createdAt' ,'action'];
+export class ListComponent implements OnInit, OnDestroy {
+  displayedColumns: string[] = [
+    "SN",
+    "name",
+    "username",
+    "createdAt",
+    "action"
+  ];
   userData$: Observable<Users>;
   userData: Array<any> = [];
+  userSubs: Subscription;
   index: any;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
-  constructor(
-    public dialog: MatDialog,
-    private store: Store<AppState>
-  ) {
+  constructor(public dialog: MatDialog, private store: Store<AppState>) {
     this.userData$ = this.store.select("users");
   }
 
@@ -65,14 +68,16 @@ export class ListComponent implements OnInit {
     ];
 
     setTimeout(() => {
-      this.store.dispatch(new UserActions.UpdateUsers(users));
-    }, 3000);
+      if (!this.userData.length) {
+        this.store.dispatch(new UserActions.UpdateUsers(users));
+      }
+    }, 1000);
   }
 
   ngOnInit(): void {
     this.getUserList();
 
-    this.userData$.subscribe(data => {
+    this.userSubs = this.userData$.subscribe(data => {
       this.userData = data;
     });
   }
@@ -80,8 +85,8 @@ export class ListComponent implements OnInit {
   deleteUser(element) {
     element;
     const dialogRef = this.dialog.open(PopupComponent, {
-      width: '250px',
-      data: {id: element.id, username: element.username}
+      width: "250px",
+      data: { id: element.id, username: element.username }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -91,4 +96,7 @@ export class ListComponent implements OnInit {
     });
   }
 
+  ngOnDestroy() {
+    this.userSubs.unsubscribe();
+  }
 }

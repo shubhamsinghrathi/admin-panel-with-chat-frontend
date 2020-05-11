@@ -13,6 +13,7 @@ import { DetailComponent } from './user/detail/detail.component';
 import { AddComponent } from './user/add/add.component';
 import { EditComponent } from './user/edit/edit.component';
 import { PopupComponent } from './common/popup/popup.component';
+import { UserblockComponent } from './user/userblock/userblock.component';
 
 @NgModule({
     declarations: [
@@ -23,7 +24,8 @@ import { PopupComponent } from './common/popup/popup.component';
         DetailComponent,
         AddComponent,
         EditComponent,
-        PopupComponent
+        PopupComponent,
+        UserblockComponent
     ],
     imports: [
         CommonModule,
