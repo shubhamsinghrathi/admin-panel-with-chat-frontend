@@ -4,6 +4,7 @@ import { UserblockComponent } from "./user/userblock/userblock.component";
 import { DashboardComponent } from "./dashboard/dashboard.component";
 import { ListComponent } from "./user/list/list.component";
 import { DetailComponent } from "./user/detail/detail.component";
+import { EditComponent } from "./user/edit/edit.component";
 import { AuthGuard } from "../../services/auth.guard";
 
 const routes: Routes = [
@@ -16,7 +17,11 @@ const routes: Routes = [
     path: "user",
     component: UserblockComponent,
     canActivate: [AuthGuard],
-    children: [{ path: "", component: ListComponent }, { path: ":userId", component: DetailComponent }]
+    children: [
+      { path: "", component: ListComponent },
+      { path: ":userId", component: DetailComponent },
+      { path: "edit/:userId", component: EditComponent }
+    ]
   },
   {
     path: "user/1",

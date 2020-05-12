@@ -42,7 +42,7 @@
           <a
             class="btn btn-primary btn-sm mr-2"
             data-target="#view"
-            (click)="viewUser(element, 1)"
+            routerLink="/home/user/edit/{{ element.id }}"
             data-toggle="modal"
           >
             <span class="btn-labels"> <i class="fa fa-pencil"></i></span>
