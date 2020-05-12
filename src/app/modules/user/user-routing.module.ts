@@ -5,6 +5,7 @@ import { DashboardComponent } from "./dashboard/dashboard.component";
 import { ListComponent } from "./user/list/list.component";
 import { DetailComponent } from "./user/detail/detail.component";
 import { EditComponent } from "./user/edit/edit.component";
+import { AddComponent } from "./user/add/add.component";
 import { AuthGuard } from "../../services/auth.guard";
 
 const routes: Routes = [
@@ -19,14 +20,10 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       { path: "", component: ListComponent },
-      { path: ":userId", component: DetailComponent },
-      { path: "edit/:userId", component: EditComponent }
+      { path: "edit/:userId", component: EditComponent },
+      { path: "add", component: AddComponent },
+      { path: ":userId", component: DetailComponent }
     ]
-  },
-  {
-    path: "user/1",
-    component: DetailComponent,
-    canActivate: [AuthGuard]
   }
 ];
 

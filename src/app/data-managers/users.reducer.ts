@@ -28,6 +28,14 @@ export function usersReducer(state: Users = defaultState, action: Action) {
             });
             return updatedUsers;
         };
+        case actions.ADD_USER: {
+            const updatedUsers: Users = [];
+            state.forEach(user => {
+                updatedUsers.push(Object.assign({}, user));
+            });
+            updatedUsers.push(Object.assign({}, action.payload));
+            return updatedUsers;
+        };
         case actions.DELETE_USER: {
             const updatedUsers: Users = [];
             state.forEach(user => {
