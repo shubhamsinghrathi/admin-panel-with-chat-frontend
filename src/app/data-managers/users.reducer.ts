@@ -1,5 +1,5 @@
 import * as actions from './users.action';
-import { User, Users } from './users.model';
+import { Users } from './users.model';
 
 export type Action = actions.All;
 

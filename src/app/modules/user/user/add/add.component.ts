@@ -14,7 +14,6 @@ import { AppState } from "../../../../data-managers/appstate.model";
 export class AddComponent implements OnInit {
   addUserForm: FormGroup;
   submitted: boolean = false;
-  userId: number;
 
   constructor(
     private builder: FormBuilder,

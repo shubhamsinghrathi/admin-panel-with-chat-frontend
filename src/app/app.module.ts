@@ -4,6 +4,7 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { simpleReducer } from './data-managers/simple.reducer';
 import { usersReducer } from './data-managers/users.reducer';
+import { adminsReducer } from './data-managers/admins.reducer';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -28,7 +29,8 @@ import { LightboxModule } from 'ngx-lightbox';
     LightboxModule,
     StoreModule.forRoot({
       message: simpleReducer,
-      users: usersReducer
+      users: usersReducer,
+      admins: adminsReducer
     }),
     StoreDevtoolsModule.instrument({
       maxAge: 10

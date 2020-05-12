@@ -1,88 +1,95 @@
-import { Component, OnInit, ViewChild, OnDestroy } from "@angular/core";
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { MatPaginator } from "@angular/material/paginator";
 import { MatDialog } from "@angular/material/dialog";
 import { Store } from "@ngrx/store";
 import { Observable, Subscription } from "rxjs";
 
-import { Users } from "../../../../data-managers/users.model";
-import * as UserActions from "../../../../data-managers/users.action";
+import { Admins } from "../../../../data-managers/admins.model";
+import * as AdminActions from "../../../../data-managers/admins.action";
 import { AppState } from "../../../../data-managers/appstate.model";
 import { PopupComponent } from "../../common/popup/popup.component";
 
 @Component({
-  selector: "app-list",
-  templateUrl: "./list.component.html",
-  styleUrls: ["./list.component.css"]
+  selector: 'app-admin-list',
+  templateUrl: './admin-list.component.html',
+  styleUrls: ['./admin-list.component.css']
 })
-export class ListComponent implements OnInit, OnDestroy {
+export class AdminListComponent implements OnInit, OnDestroy {
+
   displayedColumns: string[] = [
     "SN",
     "name",
     "username",
+    "type",
     "createdAt",
     "action"
   ];
-  userData$: Observable<Users>;
-  userData: Array<any> = [];
-  userSubs: Subscription;
+  adminData$: Observable<Admins>;
+  adminData: Array<any> = [];
+  adminSubs: Subscription;
   index: any;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   constructor(public dialog: MatDialog, private store: Store<AppState>) {
-    this.userData$ = this.store.select("users");
+    this.adminData$ = this.store.select("admins");
   }
 
-  getUserList() {
-    const users = [
+  getAdminList() {
+    const admins = [
       {
         id: 1,
         name: "Shubham Rathi",
-        username: "shubham",
+        username: "sAdmin",
+        type: 1,
         createdAt: new Date()
       },
       {
         id: 2,
         name: "Shubham Rathi",
-        username: "shubham",
+        username: "sAdmin",
+        type: 1,
         createdAt: new Date()
       },
       {
         id: 3,
         name: "Shubham Rathi",
-        username: "shubham",
+        username: "sAdmin",
+        type: 1,
         createdAt: new Date()
       },
       {
         id: 4,
         name: "Shubham Rathi",
-        username: "shubham",
+        username: "sAdmin",
+        type: 1,
         createdAt: new Date()
       },
       {
         id: 5,
         name: "Shubham Rathi",
-        username: "shubham",
+        username: "sAdmin",
+        type: 1,
         createdAt: new Date()
       }
     ];
 
     setTimeout(() => {
-      if (!this.userData || !this.userData.length) {
-        this.store.dispatch(new UserActions.UpdateUsers(users));
+      if (!this.adminData || !this.adminData.length) {
+        this.store.dispatch(new AdminActions.UpdateAdmins(admins));
       }
     }, 1000);
   }
 
   ngOnInit(): void {
-    this.getUserList();
+    this.getAdminList();
 
-    this.userSubs = this.userData$.subscribe(data => {
-      this.userData = data;
+    this.adminSubs = this.adminData$.subscribe(data => {
+      this.adminData = data;
     });
   }
 
-  deleteUser(element) {
+  deleteAdmin(element) {
     element;
     const dialogRef = this.dialog.open(PopupComponent, {
       width: "250px",
@@ -91,12 +98,13 @@ export class ListComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.store.dispatch(new UserActions.DeleteUser(result));
+        this.store.dispatch(new AdminActions.DeleteAdmin(result));
       }
     });
   }
 
   ngOnDestroy() {
-    this.userSubs.unsubscribe();
+    this.adminSubs.unsubscribe();
   }
+
 }

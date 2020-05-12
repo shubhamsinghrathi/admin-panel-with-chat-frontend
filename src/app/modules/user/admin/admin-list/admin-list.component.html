@@ -1,0 +1,79 @@
+<div class="row justify-content-center align-items-center">
+  <div>
+    <a routerLink="/home/sub-admin/add">Add Admin</a>
+  </div>
+  <div class="table-responsive  mat-elevation-z8">
+    <table mat-table [dataSource]="adminData" class="table">
+      <!-- Position Column -->
+      <ng-container matColumnDef="SN">
+        <th mat-header-cell *matHeaderCellDef>S.No.</th>
+        <!-- <td mat-cell *matCellDef="let element"> {{element.SN}} </td> -->
+        <td mat-cell *matCellDef="let element; let i = index">
+          {{ i + 1 }}
+        </td>
+      </ng-container>
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Name</th>
+        <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+      </ng-container>
+      <!-- Username Column -->
+      <ng-container matColumnDef="username">
+        <th mat-header-cell *matHeaderCellDef>Username</th>
+        <td mat-cell *matCellDef="let element">{{ element?.username }}</td>
+      </ng-container>
+      <!-- Type Column -->
+      <ng-container matColumnDef="type">
+        <th mat-header-cell *matHeaderCellDef>Type</th>
+        <td mat-cell *matCellDef="let element">{{ element.type }}</td>
+      </ng-container>
+      <ng-container matColumnDef="createdAt">
+        <th mat-header-cell *matHeaderCellDef>Creation Date</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element?.createdAt | date }}
+        </td>
+      </ng-container>
+
+      <!-- Action Column -->
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let element">
+          <a
+            class="btn btn-primary btn-sm mr-2"
+            data-target="#view"
+            routerLink="/home/sub-admin/{{ element.id }}"
+            data-toggle="modal"
+          >
+            <span class="btn-labels"> <i class="fa fa-eye"></i></span> View
+          </a>
+
+          <a
+            class="btn btn-primary btn-sm mr-2"
+            data-target="#view"
+            routerLink="/home/sub-admin/edit/{{ element.id }}"
+            data-toggle="modal"
+          >
+            <span class="btn-labels"> <i class="fa fa-pencil"></i></span>
+            Edit
+          </a>
+
+          <button
+            (click)="deleteAdmin(element)"
+            class="btn btn-danger btn-sm"
+            data-toggle="modal"
+            data-target="#block-modal"
+          >
+            <span class="btn-labels"><i class="fa fa-ban"></i></span> Delete
+          </button>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 20]"
+      showFirstLastButtons
+    ></mat-paginator>
+  </div>
+</div>

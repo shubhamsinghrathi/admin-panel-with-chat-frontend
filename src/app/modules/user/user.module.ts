@@ -14,6 +14,11 @@ import { AddComponent } from './user/add/add.component';
 import { EditComponent } from './user/edit/edit.component';
 import { PopupComponent } from './common/popup/popup.component';
 import { UserblockComponent } from './user/userblock/userblock.component';
+import { AdminAddComponent } from './admin/admin-add/admin-add.component';
+import { AdminDetailComponent } from './admin/admin-detail/admin-detail.component';
+import { AdminEditComponent } from './admin/admin-edit/admin-edit.component';
+import { AdminListComponent } from './admin/admin-list/admin-list.component';
+import { AdminOuterBlockComponent } from './admin/admin-outer-block/admin-outer-block.component';
 
 @NgModule({
     declarations: [
@@ -25,7 +30,12 @@ import { UserblockComponent } from './user/userblock/userblock.component';
         AddComponent,
         EditComponent,
         PopupComponent,
-        UserblockComponent
+        UserblockComponent,
+        AdminAddComponent,
+        AdminDetailComponent,
+        AdminEditComponent,
+        AdminListComponent,
+        AdminOuterBlockComponent
     ],
     imports: [
         CommonModule,
