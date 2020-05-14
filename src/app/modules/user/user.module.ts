@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule, DatePipe } from '@angular/common';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatCardModule } from '@angular/material/card';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 import { MatModuleModule } from '../../mat-module.module';
 import { UserRoutingModule } from './user-routing.module';
@@ -19,6 +21,10 @@ import { AdminDetailComponent } from './admin/admin-detail/admin-detail.componen
 import { AdminEditComponent } from './admin/admin-edit/admin-edit.component';
 import { AdminListComponent } from './admin/admin-list/admin-list.component';
 import { AdminOuterBlockComponent } from './admin/admin-outer-block/admin-outer-block.component';
+import { MessageOuterBlockComponent } from './message/message-outer-block/message-outer-block.component';
+import { MessageWallComponent } from './message/message-wall/message-wall.component';
+import { MessageListComponent } from './message/message-list/message-list.component';
+import { MessageWallCardComponent } from './message/message-wall/message-wall-card/message-wall-card.component';
 
 @NgModule({
     declarations: [
@@ -35,7 +41,11 @@ import { AdminOuterBlockComponent } from './admin/admin-outer-block/admin-outer-
         AdminDetailComponent,
         AdminEditComponent,
         AdminListComponent,
-        AdminOuterBlockComponent
+        AdminOuterBlockComponent,
+        MessageOuterBlockComponent,
+        MessageWallComponent,
+        MessageListComponent,
+        MessageWallCardComponent
     ],
     imports: [
         CommonModule,
@@ -43,7 +53,9 @@ import { AdminOuterBlockComponent } from './admin/admin-outer-block/admin-outer-
         MatDialogModule,
         UserRoutingModule,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        MatCardModule,
+        MatGridListModule
     ],
     providers: [
         DatePipe,

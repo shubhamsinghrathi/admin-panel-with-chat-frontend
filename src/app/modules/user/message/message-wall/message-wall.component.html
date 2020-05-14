@@ -1,0 +1,6 @@
+<mat-grid-list cols="1" rowHeight="100px" style="max-width: 600px; min-width: 600px;">
+    <mat-grid-tile *ngFor="let wallDataUnit of wallData">
+        <app-message-wall-card (cardClick)="cardSelected($event)"
+        [wallMsg]="wallDataUnit"></app-message-wall-card>
+    </mat-grid-tile>
+</mat-grid-list>

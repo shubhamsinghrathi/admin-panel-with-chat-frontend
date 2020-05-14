@@ -11,6 +11,9 @@ import { AdminAddComponent } from './admin/admin-add/admin-add.component';
 import { AdminDetailComponent } from './admin/admin-detail/admin-detail.component';
 import { AdminEditComponent } from './admin/admin-edit/admin-edit.component';
 import { AdminListComponent } from './admin/admin-list/admin-list.component';
+import { MessageOuterBlockComponent } from './message/message-outer-block/message-outer-block.component';
+import { MessageWallComponent } from './message/message-wall/message-wall.component';
+import { MessageListComponent } from './message/message-list/message-list.component';
 import { AuthGuard } from "../../services/auth.guard";
 
 const routes: Routes = [
@@ -39,6 +42,15 @@ const routes: Routes = [
       { path: "edit/:userId", component: AdminEditComponent },
       { path: "add", component: AdminAddComponent },
       { path: ":userId", component: AdminDetailComponent }
+    ]
+  },
+  {
+    path: "message",
+    component: MessageOuterBlockComponent,
+    canActivate: [AuthGuard],
+    children: [
+      { path: "", component: MessageWallComponent },
+      { path: ":chatId", component: MessageListComponent }
     ]
   }
 ];

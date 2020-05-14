@@ -1,0 +1,11 @@
+<mat-card style="max-width: 600px; min-width: 600px;" (click)="cardClicked(wallMsg.chatId)">
+  <mat-card-header>
+    <div
+      mat-card-avatar
+      style="background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg'); background-size: cover;"
+    ></div>
+    <mat-card-title>{{ wallMsg.name }}</mat-card-title>
+    <span>{{ wallMsg.messageTime | date }}</span>
+    <mat-card-subtitle>{{ wallMsg.message }}</mat-card-subtitle>
+  </mat-card-header>
+</mat-card>
