@@ -5,6 +5,7 @@ import { Observable, Subscription } from 'rxjs';
 import * as WallActions from '../../../../data-managers/msgwall.action';
 import { MsgsWall } from '../../../../data-managers/msgwall.model';
 import { AppState } from "../../../../data-managers/appstate.model";
+import { CommonService } from '../../../../services/utils/common.service';
 
 @Component({
   selector: 'app-message-wall',
@@ -17,7 +18,7 @@ export class MessageWallComponent implements OnInit, OnDestroy {
   wallData: MsgsWall= [];
   wallSubs: Subscription;
 
-  constructor(private store: Store<AppState>) {
+  constructor(private store: Store<AppState>, private commonService: CommonService) {
     this.wallData$ = this.store.select("msgsWall");
   }
 
@@ -72,8 +73,8 @@ export class MessageWallComponent implements OnInit, OnDestroy {
     this.wallSubs.unsubscribe();
   }
 
-  cardSelected(cardId: string) {
-    alert("cardId " + cardId);
+  cardSelected(chatId: string) {
+    this.commonService.goto(`home/message/${chatId}`);
   }
 
 }

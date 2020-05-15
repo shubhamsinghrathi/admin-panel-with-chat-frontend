@@ -20,9 +20,9 @@ export function wallReducer(state: MsgsWall = defaultState, action: Action) {
         case actions.EDIT_WALL: {
             const updatedWall: MsgsWall = [];
             updatedWall.unshift(Object.assign({}, action.payload));
-            state.forEach(admin => {
-                if (admin.id != action.payload.id) {
-                    updatedWall.push(Object.assign({}, admin));
+            state.forEach(card => {
+                if (card.id != action.payload.id) {
+                    updatedWall.push(Object.assign({}, card));
                 }
             });
             return updatedWall;
@@ -30,8 +30,8 @@ export function wallReducer(state: MsgsWall = defaultState, action: Action) {
         case actions.ADD_CHAT: {
             const updatedWall: MsgsWall = [];
             updatedWall.unshift(Object.assign({}, action.payload));
-            state.forEach(admin => {
-                updatedWall.push(Object.assign({}, admin));
+            state.forEach(card => {
+                updatedWall.push(Object.assign({}, card));
             });
             return updatedWall;
         };

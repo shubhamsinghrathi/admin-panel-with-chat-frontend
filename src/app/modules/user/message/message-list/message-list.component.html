@@ -1,1 +1,9 @@
-<p>message-list works!</p>
+<div class="like-body">
+  <h2>{{ name }} : Chat</h2>
+
+<div *ngFor="let msgData of msgsData" class="msg-container" [class.darker]="myName === msgData.name">
+        <h2>{{ msgData.name }}</h2>
+        <p>{{ msgData.message }}</p>
+        <span class="time-left">{{ msgData.messageTime | date }}</span>
+  </div>
+</div>

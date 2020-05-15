@@ -6,6 +6,7 @@ import { simpleReducer } from './data-managers/simple.reducer';
 import { usersReducer } from './data-managers/users.reducer';
 import { adminsReducer } from './data-managers/admins.reducer';
 import { wallReducer } from './data-managers/msgwall.reduce';
+import { messageReducer } from './data-managers/messages.reduce';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -32,7 +33,8 @@ import { LightboxModule } from 'ngx-lightbox';
       message: simpleReducer,
       users: usersReducer,
       admins: adminsReducer,
-      msgsWall: wallReducer
+      msgsWall: wallReducer,
+      messages: messageReducer
     }),
     StoreDevtoolsModule.instrument({
       maxAge: 10
