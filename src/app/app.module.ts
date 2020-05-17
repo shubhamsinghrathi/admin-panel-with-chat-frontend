@@ -1,7 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+
 import { simpleReducer } from './data-managers/simple.reducer';
 import { usersReducer } from './data-managers/users.reducer';
 import { adminsReducer } from './data-managers/admins.reducer';
@@ -11,6 +13,7 @@ import { messageReducer } from './data-managers/messages.reduce';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AuthInterceptor } from './services/auth.interceptor';
 
 import { ToastrModule } from 'ngx-toastr';
 import { LightboxModule } from 'ngx-lightbox';
@@ -23,6 +26,7 @@ import { LightboxModule } from 'ngx-lightbox';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     ToastrModule.forRoot({
       positionClass: 'toast-top-right',
       timeOut: 1500,
@@ -40,7 +44,13 @@ import { LightboxModule } from 'ngx-lightbox';
       maxAge: 10
     })
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

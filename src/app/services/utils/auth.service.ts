@@ -25,6 +25,7 @@ export class AuthService {
   }
 
   logout() {
+    this.storageService.removeData(CONSTANTS.storageKey.data);
     this.storageService.removeData(CONSTANTS.storageKey.token);
     this.router.navigate(["/"]);
     return true;

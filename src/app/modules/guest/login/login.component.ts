@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CommonService } from '../../../services/utils/common.service';
 import { StorageService } from '../../../services/utils/storage.service';
 import { CONSTANTS } from '../../../config/constants';
+import { ApiService } from '../../../services/api.service';
 
 @Component({
   selector: 'app-login',
@@ -18,29 +19,37 @@ export class LoginComponent implements OnInit {
     private builder: FormBuilder,
     private commonService: CommonService,
     private storageService: StorageService,
+    private apiService: ApiService
   ) {
     this.loginForm = this.builder.group({
-      email: ['', [ Validators.required, Validators.email ]],
+      username: ['', [ Validators.required ]],
       password: ['', [ Validators.required ]]
     });
   }
 
+  get lf() { return this.loginForm.controls; }
+
   login() {
     this.submitted = true;
-    this.commonService.alert("success", "LoggedIn successfully");
+    this.loginForm.controls;
+    if (this.loginForm.invalid) return;
 
-    this.storageService.set(CONSTANTS.storageKey.data, {
-      id: 1234,
-      name: "Shubham Rathi",
-      type: 1, // 1 admin, 2 sub-admin
-      username: "shubham",
-      createdAt: new Date(),
-      imageUrl: "https://image.freepik.com/free-vector/man-profile-cartoon_18591-58483.jpg"
-    });
+    let dataToSend = {
+      username: this.loginForm.value.username,
+      password: this.loginForm.value.password
+    };
 
-    this.storageService.set(CONSTANTS.storageKey.token, "1234567890"); // JWT from API response
-
-    this.commonService.goto("/home/dashboard");
+    this.apiService.login(dataToSend).subscribe(
+      data => {
+        this.storageService.set(CONSTANTS.storageKey.token, data['message']); // JWT from API response
+        this.storageService.set(CONSTANTS.storageKey.data, data['data']);
+        this.commonService.alert("success", "LoggedIn successfully");
+        this.commonService.goto("/home/dashboard");
+      },
+      error => {
+        this.commonService.alert("error", error.error.message);
+      }
+    );
   }
 
   ngOnInit() {
