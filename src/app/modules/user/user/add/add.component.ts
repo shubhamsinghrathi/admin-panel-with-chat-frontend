@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from "@ngrx/store";
-import { FormGroup, FormBuilder, Validator, Validators } from "@angular/forms";
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 
 import * as UserActions from "../../../../data-managers/users.action";
 import { CommonService } from '../../../../services/utils/common.service';
 import { AppState } from "../../../../data-managers/appstate.model";
+import { ApiService } from '../../../../services/api.service';
 
 @Component({
   selector: 'app-add',
@@ -18,6 +19,7 @@ export class AddComponent implements OnInit {
   constructor(
     private builder: FormBuilder,
     private store: Store<AppState>,
+    private apiService: ApiService,
     private commonService: CommonService
   ) {
     this.addUserForm = this.builder.group({
@@ -26,18 +28,25 @@ export class AddComponent implements OnInit {
     });
   }
 
+  get f() { return this.addUserForm.controls; }
+
   addUser() {
     this.submitted = true;
+    if (this.addUserForm.invalid) return;
+
     const name = this.addUserForm.get("name").value;
     const username = this.addUserForm.get("username").value;
     const user = {
       name,
-      username,
-      createdAt: new Date(),
-      id: 11
+      username
     };
-    this.store.dispatch(new UserActions.AddUser(user));
-    this.commonService.goto("/home/user");
+
+    this.apiService.userAdd(user).subscribe(
+      data => {
+        this.store.dispatch(new UserActions.AddUser(data['data']));
+        this.commonService.goto("/home/user");
+      }
+    );
   }
 
   ngOnInit(): void {

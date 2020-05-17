@@ -8,6 +8,7 @@ import { Users, User } from "../../../../data-managers/users.model";
 import * as UserActions from "../../../../data-managers/users.action";
 import { CommonService } from '../../../../services/utils/common.service';
 import { AppState } from "../../../../data-managers/appstate.model";
+import { ApiService } from '../../../../services/api.service';
 
 @Component({
   selector: "app-edit",
@@ -26,7 +27,8 @@ export class EditComponent implements OnInit, OnDestroy {
     private builder: FormBuilder,
     private route: ActivatedRoute,
     private store: Store<AppState>,
-    private commonService: CommonService
+    private commonService: CommonService,
+    private apiService: ApiService
   ) {
     this.userData$ = this.store.select("users");
     this.route.params.subscribe(params => {
@@ -38,13 +40,24 @@ export class EditComponent implements OnInit, OnDestroy {
     });
   }
 
+  get f() { return this.editUserForm.controls; }
+
   editUser() {
     this.submitted = true;
+    if (this.editUserForm.invalid) return;
+
     const updatedName = this.editUserForm.get("name").value;
-    const user = Object.assign({}, this.userData);
-    user.name = updatedName;
-    this.store.dispatch(new UserActions.EditUser(user));
-    this.commonService.goto("/home/user");
+    const user = {
+      id: this.userData.id,
+      name: updatedName
+    };
+
+    this.apiService.userEdit(user).subscribe(
+      data => {
+        this.store.dispatch(new UserActions.EditUser(data['data']));
+        this.commonService.goto("/home/user");
+      }
+    );
   }
 
   ngOnInit(): void {

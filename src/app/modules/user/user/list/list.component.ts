@@ -8,6 +8,8 @@ import { Users } from "../../../../data-managers/users.model";
 import * as UserActions from "../../../../data-managers/users.action";
 import { AppState } from "../../../../data-managers/appstate.model";
 import { PopupComponent } from "../../common/popup/popup.component";
+import { ApiService } from "../../../../services/api.service";
+import { CommonService } from "../../../../services/utils/common.service";
 
 @Component({
   selector: "app-list",
@@ -29,49 +31,21 @@ export class ListComponent implements OnInit, OnDestroy {
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
-  constructor(public dialog: MatDialog, private store: Store<AppState>) {
+  constructor(
+    public dialog: MatDialog,
+    private store: Store<AppState>,
+    private apiService: ApiService,
+    private commonService: CommonService
+  ) {
     this.userData$ = this.store.select("users");
   }
 
   getUserList() {
-    const users = [
-      {
-        id: 1,
-        name: "Shubham Rathi",
-        username: "shubham",
-        createdAt: new Date()
-      },
-      {
-        id: 2,
-        name: "Shubham Rathi",
-        username: "shubham",
-        createdAt: new Date()
-      },
-      {
-        id: 3,
-        name: "Shubham Rathi",
-        username: "shubham",
-        createdAt: new Date()
-      },
-      {
-        id: 4,
-        name: "Shubham Rathi",
-        username: "shubham",
-        createdAt: new Date()
-      },
-      {
-        id: 5,
-        name: "Shubham Rathi",
-        username: "shubham",
-        createdAt: new Date()
+    this.apiService.userList().subscribe(
+      data => {
+        this.store.dispatch(new UserActions.UpdateUsers(data["dataArr"]));
       }
-    ];
-
-    setTimeout(() => {
-      if (!this.userData || !this.userData.length) {
-        this.store.dispatch(new UserActions.UpdateUsers(users));
-      }
-    }, 1000);
+    );
   }
 
   ngOnInit(): void {
@@ -91,6 +65,11 @@ export class ListComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
+        this.apiService.userDelete(parseInt(element.id)).subscribe(
+          data => {
+            this.commonService.alert("success", "User deleted successfully");
+          }
+        );
         this.store.dispatch(new UserActions.DeleteUser(result));
       }
     });

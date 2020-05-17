@@ -32,4 +32,24 @@ export class ApiService {
     return this.http.delete(`/api/admin/${adminId}`);
   }
 
+  userList() {
+    return this.http.get("/api/user/list");
+  }
+
+  userGet(userId) {
+    return this.http.get(`/api/user/${userId}`);
+  }
+
+  userAdd(data) {
+    return this.http.post("/api/user", data);
+  }
+
+  userEdit(data) {
+    return this.http.put("/api/user", data);
+  }
+
+  userDelete(userId) {
+    return this.http.delete(`/api/user/${userId}`);
+  }
+
 }
