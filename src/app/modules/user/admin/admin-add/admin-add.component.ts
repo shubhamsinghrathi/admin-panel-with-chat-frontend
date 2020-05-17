@@ -5,6 +5,7 @@ import { FormGroup, FormBuilder, Validator, Validators } from "@angular/forms";
 import * as AdminActions from "../../../../data-managers/admins.action";
 import { CommonService } from '../../../../services/utils/common.service';
 import { AppState } from "../../../../data-managers/appstate.model";
+import { ApiService } from '../../../../services/api.service';
 
 @Component({
   selector: 'app-admin-add',
@@ -18,29 +19,40 @@ export class AdminAddComponent implements OnInit {
   constructor(
     private builder: FormBuilder,
     private store: Store<AppState>,
+    private apiService: ApiService,
     private commonService: CommonService
   ) {
     this.addAdminForm = this.builder.group({
       name: ['', [ Validators.required ]],
       username: ['', [ Validators.required ]],
-      type: [1, [ Validators.required ]]
+      type: [1, [ Validators.required ]],
+      password: ['', [ Validators.required ]]
     });
   }
 
+  get f() { return this.addAdminForm.controls; }
+
   addAdmin() {
     this.submitted = true;
+    if (this.addAdminForm.invalid) return;
+
     const name = this.addAdminForm.get("name").value;
     const username = this.addAdminForm.get("username").value;
     const type = this.addAdminForm.get("type").value;
+    const password = this.addAdminForm.get("password").value;
     const admin = {
       name,
       username,
       type,
-      createdAt: new Date(),
-      id: 11
+      password
     };
-    this.store.dispatch(new AdminActions.AddAdmin(admin));
-    this.commonService.goto("/home/sub-admin");
+
+    this.apiService.adminAdd(admin).subscribe(
+      data => {
+        this.store.dispatch(new AdminActions.AddAdmin(data['data']));
+        this.commonService.goto("/home/sub-admin");
+      }
+    );
   }
 
   ngOnInit(): void {

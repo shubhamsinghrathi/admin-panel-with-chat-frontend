@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from "@angular/core";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatDialog } from "@angular/material/dialog";
 import { Store } from "@ngrx/store";
@@ -8,14 +8,15 @@ import { Admins } from "../../../../data-managers/admins.model";
 import * as AdminActions from "../../../../data-managers/admins.action";
 import { AppState } from "../../../../data-managers/appstate.model";
 import { PopupComponent } from "../../common/popup/popup.component";
+import { ApiService } from "../../../../services/api.service";
+import { CommonService } from "../../../../services/utils/common.service";
 
 @Component({
-  selector: 'app-admin-list',
-  templateUrl: './admin-list.component.html',
-  styleUrls: ['./admin-list.component.css']
+  selector: "app-admin-list",
+  templateUrl: "./admin-list.component.html",
+  styleUrls: ["./admin-list.component.css"]
 })
 export class AdminListComponent implements OnInit, OnDestroy {
-
   displayedColumns: string[] = [
     "SN",
     "name",
@@ -31,54 +32,21 @@ export class AdminListComponent implements OnInit, OnDestroy {
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
-  constructor(public dialog: MatDialog, private store: Store<AppState>) {
+  constructor(
+    public dialog: MatDialog,
+    private store: Store<AppState>,
+    private apiService: ApiService,
+    private commonService: CommonService
+  ) {
     this.adminData$ = this.store.select("admins");
   }
 
   getAdminList() {
-    const admins = [
-      {
-        id: 1,
-        name: "Shubham Rathi",
-        username: "sAdmin",
-        type: 1,
-        createdAt: new Date()
-      },
-      {
-        id: 2,
-        name: "Shubham Rathi",
-        username: "sAdmin",
-        type: 1,
-        createdAt: new Date()
-      },
-      {
-        id: 3,
-        name: "Shubham Rathi",
-        username: "sAdmin",
-        type: 1,
-        createdAt: new Date()
-      },
-      {
-        id: 4,
-        name: "Shubham Rathi",
-        username: "sAdmin",
-        type: 1,
-        createdAt: new Date()
-      },
-      {
-        id: 5,
-        name: "Shubham Rathi",
-        username: "sAdmin",
-        type: 1,
-        createdAt: new Date()
+    this.apiService.adminList().subscribe(
+      data => {
+        this.store.dispatch(new AdminActions.UpdateAdmins(data["dataArr"]));
       }
-    ];
-
-    setTimeout(() => {
-      if (!this.adminData || !this.adminData.length) {
-        this.store.dispatch(new AdminActions.UpdateAdmins(admins));
-      }
-    }, 1000);
+    );
   }
 
   ngOnInit(): void {
@@ -90,7 +58,6 @@ export class AdminListComponent implements OnInit, OnDestroy {
   }
 
   deleteAdmin(element) {
-    element;
     const dialogRef = this.dialog.open(PopupComponent, {
       width: "250px",
       data: { id: element.id, username: element.username }
@@ -98,6 +65,11 @@ export class AdminListComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
+        this.apiService.adminDelete(parseInt(element.id)).subscribe(
+          data => {
+            this.commonService.alert("success", "Admin deleted successfully");
+          }
+        );
         this.store.dispatch(new AdminActions.DeleteAdmin(result));
       }
     });
@@ -106,5 +78,4 @@ export class AdminListComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.adminSubs.unsubscribe();
   }
-
 }

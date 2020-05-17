@@ -8,6 +8,7 @@ import { Admins, Admin } from "../../../../data-managers/admins.model";
 import * as AdminActions from "../../../../data-managers/admins.action";
 import { CommonService } from '../../../../services/utils/common.service';
 import { AppState } from "../../../../data-managers/appstate.model";
+import { ApiService } from '../../../../services/api.service';
 
 @Component({
   selector: 'app-admin-edit',
@@ -26,7 +27,8 @@ export class AdminEditComponent implements OnInit, OnDestroy {
     private builder: FormBuilder,
     private route: ActivatedRoute,
     private store: Store<AppState>,
-    private commonService: CommonService
+    private commonService: CommonService,
+    private apiService: ApiService
   ) {
     this.adminData$ = this.store.select("admins");
     this.route.params.subscribe(params => {
@@ -38,13 +40,24 @@ export class AdminEditComponent implements OnInit, OnDestroy {
     });
   }
 
+  get f() { return this.editAdminForm.controls; }
+
   editAdmin() {
     this.submitted = true;
+    if (this.editAdminForm.invalid) return;
+
     const updatedName = this.editAdminForm.get("name").value;
-    const admin = Object.assign({}, this.adminData);
-    admin.name = updatedName;
-    this.store.dispatch(new AdminActions.EditAdmin(admin));
-    this.commonService.goto("/home/sub-admin");
+    const admin = {
+      id: this.adminData.id,
+      name: updatedName
+    };
+
+    this.apiService.adminEdit(admin).subscribe(
+      data => {
+        this.store.dispatch(new AdminActions.EditAdmin(data['data']));
+        this.commonService.goto("/home/sub-admin");
+      }
+    );
   }
 
   ngOnInit(): void {

@@ -1,6 +1,6 @@
 <div class="col-md-12">
   <form class="form" [formGroup]="addAdminForm" (ngSubmit)="addAdmin()">
-    <h3 class="text-center text-info">Add User</h3>
+    <h3 class="text-center text-info">Add Admin</h3>
     <div class="form-group">
       <label for="name" class="text-info">Name:</label><br />
       <input
@@ -10,6 +10,9 @@
         class="form-control"
         formControlName="name"
       />
+      <div *ngIf="submitted && f.name.errors">
+        <div *ngIf="f.name.errors.required">Name is required</div>
+      </div>
     </div>
     <div class="form-group">
       <label for="username" class="text-info">Username:</label><br />
@@ -20,6 +23,9 @@
         class="form-control"
         formControlName="username"
       />
+      <div *ngIf="submitted && f.username.errors">
+        <div *ngIf="f.username.errors.required">Username is required</div>
+      </div>
     </div>
     <div class="form-group">
       <label for="type" class="text-info">Type:</label><br />
@@ -30,7 +36,23 @@
         class="form-control"
         formControlName="type"
       />
+      <div *ngIf="submitted && f.type.errors">
+        <div *ngIf="f.type.errors.required">Type is required</div>
+      </div>
     </div>
+    <div class="form-group">
+        <label for="password" class="text-info">Password:</label><br />
+        <input
+          type="text"
+          name="password"
+          id="password"
+          class="form-control"
+          formControlName="password"
+        />
+        <div *ngIf="submitted && f.password.errors">
+          <div *ngIf="f.password.errors.required">Password is required</div>
+        </div>
+      </div>
     <div class="form-group">
       <input
         type="submit"
